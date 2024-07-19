@@ -46,4 +46,4 @@ EOF
 systemctl daemon-reload
 systemctl enable stable-diffusion-webui.service
 
-echo "Setup complete. To start the service, use: sudo systemctl start stable-diffusion-webui.service"
+reboot
