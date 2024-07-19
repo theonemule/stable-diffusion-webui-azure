@@ -1,5 +1,7 @@
 # Stable Diffusion Web UI Deployment
 
+### [Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/theonemule/stable-diffusion-webui-azure/main/template.json)
+
 This repository contains a script and an Azure Resource Manager (ARM) template to deploy a virtual machine (VM) with the Stable Diffusion Web UI. The script installs all necessary dependencies and sets up the environment for the Stable Diffusion Web UI, while the ARM template provisions the VM and executes the script.
 
 ## Contents
@@ -27,7 +29,11 @@ Modify the `template.json` file if necessary to fit your deployment needs (e.g.,
 
 ### Step 3: Deploy the ARM Template
 
-Use the Azure CLI to deploy the ARM template. Replace the placeholders with your desired values.
+You can deploy the ARM template using the link below, which will open the Azure portal with the custom deployment option pre-configured:
+
+[Deploy to Azure](https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/theonemule/stable-diffusion-webui-azure/main/template.json)
+
+Alternatively, you can use the Azure CLI to deploy the ARM template. Replace the placeholders with your desired values.
 
 ```bash
 az deployment group create --resource-group <your-resource-group> --template-file template.json --parameters vmName=<your-vm-name> adminUsername=<your-admin-username> adminPassword=<your-admin-password>
@@ -35,7 +41,27 @@ az deployment group create --resource-group <your-resource-group> --template-fil
 
 ### Step 4: Access the Stable Diffusion Web UI
 
-Once the deployment is complete, the VM will automatically set up and run the Stable Diffusion Web UI. You can access it via the public IP address of the VM on the default port.
+Once the deployment is complete, the VM will automatically set up and run the Stable Diffusion Web UI. 
+
+### Connecting to the Azure VM Using SSH
+
+To access the VM via SSH, you can use the following command:
+
+```bash
+ssh <admin-username>@<public-ip-address>
+```
+
+Replace `<admin-username>` with the username specified during deployment and `<public-ip-address>` with the VM's public IP address.
+
+### Port Forwarding to Access the Stable Diffusion Web UI
+
+To access the Stable Diffusion Web UI on port 7860 of the remote machine, set up SSH port forwarding:
+
+```bash
+ssh -L 7860:localhost:7860 <admin-username>@<public-ip-address>
+```
+
+This command forwards your local port 7860 to port 7860 on the remote VM. After running the command, you can access the Stable Diffusion Web UI by opening `http://localhost:7860` in your web browser.
 
 ## Script Details
 
@@ -91,5 +117,3 @@ This project is licensed under the MIT License.
 ## Acknowledgements
 
 - [Stable Diffusion Web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
-
-Feel free to contribute to this project by submitting issues or pull requests. For any questions, please contact [your-email@example.com].
