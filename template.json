@@ -26,12 +26,6 @@
       "metadata": {
         "description": "Location for the VM."
       }
-    },
-    "scriptUri": {
-      "type": "string",
-      "metadata": {
-        "description": "URI of the script to be executed by the VM Script extension."
-      }
     }
   },
   "variables": {
@@ -131,9 +125,9 @@
         "typeHandlerVersion": "2.1",
         "settings": {
           "fileUris": [
-            "[parameters('scriptUri')]"
+            "https://raw.githubusercontent.com/theonemule/stable-diffusion-webui-azure/main/install.sh"
           ],
-          "commandToExecute": "sh script.sh"
+          "commandToExecute": "[concat('bash install.sh ', parameters('adminUsername'))]"
         }
       },
       "dependsOn": [
